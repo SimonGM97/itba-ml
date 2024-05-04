@@ -2,6 +2,7 @@ Boruta==0.3
 colorlog==6.8.2
 docker==7.0.0
 Flask==3.0.3
+holidays==0.46
 hyperopt==0.2.7
 imbalanced-learn==0.11.0
 joblib==1.4.0
@@ -24,7 +25,9 @@ seaborn==0.13.2
 shap==0.45.0
 statsmodels==0.14.1
 streamlit==1.33.0
+tensorflow==2.16.1
 tqdm==4.66.2
+tsfresh==0.20.2
 urllib3==2.0.7
 wrapt_timeout_decorator==1.5.1
 xgboost==2.0.3

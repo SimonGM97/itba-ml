@@ -12,7 +12,7 @@ y Algoritmos de Aprendizaje Automático - Máster en Management & Analytics - IT
 
 # Define setup
 setup(
-    name="src",
+    name="itba_ml",
     description=description,
     author="Simón P. García Morillo",
     author_email="simongmorillo1@gmail.com",
