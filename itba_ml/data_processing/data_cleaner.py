@@ -40,6 +40,9 @@ class DataCleaner:
 
         # Remove duplicated columns
         self.df = self.df.loc[:, ~self.df.columns.duplicated(keep='first')]
+
+        # Show duplicated idxs
+        LOGGER.info("Duplicated idxs: %s", self.df.loc[self.df.index.duplicated()].shape[0])
     
     def drop_outliers(self) -> pd.DataFrame:
         # Find numerical columns
@@ -51,6 +54,9 @@ class DataCleaner:
         # Remove values where z_score is over 2.5 stdev
         for col in num_cols:
             self.df.loc[z_scores[col] > 2.5] = np.nan
+        
+        # Show max values
+        LOGGER.info("Numerical Max obs:\n%s\n", pd.DataFrame(self.df[num_cols].max()).T)
     
     def fill_null_values(
         self,
@@ -62,7 +68,12 @@ class DataCleaner:
         # Interpolate missing values, based on method
         if method == 'interpolate':
             # Interpolate missing values from remaining rows
-            self.df[num_cols] = self.df[num_cols].interpolate(method="linear")
+            self.df[num_cols] = (
+                self.df[num_cols]
+                .interpolate(method="linear")
+                .fillna(method='ffill')
+                .fillna(method='bfill')
+            )
 
         elif method == 'mean':
             # Replace outliers with mean values for that column
@@ -81,6 +92,9 @@ class DataCleaner:
         modes_dict = {col: self.df[col].mode() for col in cat_cols}
 
         self.df.fillna(value=modes_dict, inplace=True)
+
+        # Show null values
+        LOGGER.info("Null values: %s", self.df.isna().sum().sum())
     
     def rename_columns(
         self,
